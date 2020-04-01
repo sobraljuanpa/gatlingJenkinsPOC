@@ -10,4 +10,8 @@ node {
         sh 'mvn clean gatling:test'
     }
 
+    stage('Report results') {
+        gatlingArchive()
+    }
+
 }
