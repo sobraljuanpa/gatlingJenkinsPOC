@@ -23,7 +23,7 @@ class RecipesAPI extends Simulation {
 		Map("ingredient"->"potato"),
 		Map("ingredient"->"onion"),
 		Map("ingredient"->"garlic"),
-		Map("ingredient"->"mozarella")
+		Map("ingredient"->"tomato")
 	).random
 
 	object Home {
