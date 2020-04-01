@@ -14,4 +14,10 @@ node {
         gatlingArchive()
     }
 
+    stage('Perform post execution checks') {
+        gatlingCheck(metrics: [
+            'global.responseTime99 = 30',
+        ])
+    }
+
 }
