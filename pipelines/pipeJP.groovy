@@ -16,7 +16,7 @@ node {
 
     stage('Perform post execution checks') {
         gatlingCheck(metrics: [
-            'global.responseTime99 = 30',
+            'global.responseTime99 = 80',
         ])
     }
 
