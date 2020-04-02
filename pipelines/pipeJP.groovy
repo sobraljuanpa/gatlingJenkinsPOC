@@ -7,7 +7,7 @@ node {
     }
 
     stage('Execute tests using maven') {
-        sh 'mvn clean gatling:test'
+        sh 'mvn clean gatling:test -Dgatling.simulationClass=LibraryAPI'
     }
 
     stage('Report results') {
