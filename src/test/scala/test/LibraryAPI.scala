@@ -23,20 +23,37 @@ class LibraryAPI extends Simulation {
 
     val uri2 = "http://covers.openlibrary.org/b/isbn/0385472579-S.jpg"
 
-	val scn = scenario("LibraryAPI")
-		// Search for book by title
-		.exec(http("request_0")
+	object BookSearch {
+		val searchBook = exec (http("Paso 1 - Buscar libro")
 			.get("/search.json?title=the+lord+of+the+rings")
-			.headers(headers_0))
-		.pause(34)
-		.exec(http("request_1")
+			.headers(headers_0)
+		)
+		.pause(1)
+	}
+
+	object AuthorSearch {
+		val searchAuthor = exec(http("Paso 2 - Buscar autor")
 			.get("/search.json?author=tolkien")
-			.headers(headers_1))
-		.pause(114)
-		// Look for book cover
-		.exec(http("request_2")
-			.get(uri2)
-			.headers(headers_2))
+			.headers(headers_1)
+		)
+		.pause(1)
+	}
+
+	val scn = scenario("LibraryAPI")
+		.exec(BookSearch.searchBook, AuthorSearch.searchAuthor)
+		// // Search for book by title
+		// .exec(http("request_0")
+		// 	.get("/search.json?title=the+lord+of+the+rings")
+		// 	.headers(headers_0))
+		// .pause(34)
+		// .exec(http("request_1")
+		// 	.get("/search.json?author=tolkien")
+		// 	.headers(headers_1))
+		// .pause(114)
+		// // Look for book cover
+		// .exec(http("request_2")
+		// 	.get(uri2)
+		// 	.headers(headers_2))
 
 	setUp(scn.inject(atOnceUsers(1))).protocols(httpProtocol)
 }
