@@ -29,7 +29,7 @@ class LibraryAPI extends Simulation {
 			.queryParam("title", "the lord of the rings")
 			.headers(headers_0)
 			.check(jsonPath("$..author_name[0]").ofType[String].saveAs("authorName"),
-				jsonPath("$..cover_i[0]").ofType[String].saveAs("coverID")
+				jsonPath("$..cover_i[0]").ofType[Int].saveAs("coverID")
 			)
 		)
 		.pause(1)
