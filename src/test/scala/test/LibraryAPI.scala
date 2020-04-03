@@ -26,7 +26,7 @@ class LibraryAPI extends Simulation {
 	object BookSearch {
 		val searchBook = exec (http("Paso 1 - Buscar libro")
 			.get("/search.json")
-			.queryParam("title", "the+lord+of+the+rings")
+			.queryParam("title", "the lord of the rings")
 			.headers(headers_0)
 			.check(jsonPath("$..author_name[0]").ofType[String].saveAs("authorName"))
 		)
