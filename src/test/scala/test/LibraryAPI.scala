@@ -24,25 +24,33 @@ class LibraryAPI extends Simulation {
     val uri2 = "http://covers.openlibrary.org/b/isbn/0385472579-S.jpg"
 
 	object BookSearch {
-		val searchBook = exec (http("Paso 1 - Buscar libro")
+		val getBook = exec (http("Paso 1 - Buscar libro")
 			.get("/search.json")
 			.queryParam("title", "the lord of the rings")
 			.headers(headers_0)
 			.check(jsonPath("$..author_name[0]").ofType[String].saveAs("authorName"))
+			.check(jsonPath("$..cover_i[0]").ofType[String].saveAs("coverID"))
 		)
 		.pause(1)
 	}
 
 	object AuthorSearch {
-		val searchAuthor = exec(http("Paso 2 - Buscar autor")
+		val getAuthor = exec(http("Paso 2 - Buscar autor")
 			.get("/search.json?author=${authorName}")
 			.headers(headers_1)
 		)
 		.pause(1)
 	}
 
+	object CoverSearch {
+		val getCover = exec(http("Paso 3 - Buscar Tapa del libro")
+			.get("http://covers.openlibrary.org/b/ID/${coverID}-L.jpg")
+			.headers(headers_2)
+		)
+	}
+
 	val scn = scenario("LibraryAPI")
-		.exec(BookSearch.searchBook, AuthorSearch.searchAuthor)
+		.exec(BookSearch.getBook, AuthorSearch.getAuthor, CoverSearch.getCover)
 		// // Search for book by title
 		// .exec(http("request_0")
 		// 	.get("/search.json?title=the+lord+of+the+rings")
