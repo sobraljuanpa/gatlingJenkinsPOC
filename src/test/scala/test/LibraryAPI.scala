@@ -59,19 +59,6 @@ class LibraryAPI extends Simulation {
 	val scn = scenario("LibraryAPI")
 		.feed(feeder)
 		.exec(BookSearch.getBook, AuthorSearch.getAuthor, CoverSearch.getCover)
-		// // Search for book by title
-		// .exec(http("request_0")
-		// 	.get("/search.json?title=the+lord+of+the+rings")
-		// 	.headers(headers_0))
-		// .pause(34)
-		// .exec(http("request_1")
-		// 	.get("/search.json?author=tolkien")
-		// 	.headers(headers_1))
-		// .pause(114)
-		// // Look for book cover
-		// .exec(http("request_2")
-		// 	.get(uri2)
-		// 	.headers(headers_2))
 
 	setUp(scn.inject(atOnceUsers(4))).protocols(httpProtocol)
 }
