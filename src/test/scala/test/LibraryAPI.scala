@@ -23,10 +23,17 @@ class LibraryAPI extends Simulation {
 
     val uri2 = "http://covers.openlibrary.org/b/isbn/0385472579-S.jpg"
 
+	val feeder = Array(
+		Map("bookName"->"the lord of the rings"),
+		Map("bookName"->"fear and loathing in las vegas"),
+		Map("bookName"->"the catcher in the rye"),
+		Map("bookName"->"the shining")
+	).random
+
 	object BookSearch {
 		val getBook = exec (http("Paso 1 - Buscar libro")
 			.get("/search.json")
-			.queryParam("title", "the lord of the rings")
+			.queryParam("title", "${bookName}")
 			.headers(headers_0)
 			.check(jsonPath("$..author_name[0]").ofType[String].saveAs("authorName"))
 		)
@@ -50,6 +57,7 @@ class LibraryAPI extends Simulation {
 	}
 
 	val scn = scenario("LibraryAPI")
+		.feed(feeder)
 		.exec(BookSearch.getBook, AuthorSearch.getAuthor, CoverSearch.getCover)
 		// // Search for book by title
 		// .exec(http("request_0")
@@ -65,5 +73,5 @@ class LibraryAPI extends Simulation {
 		// 	.get(uri2)
 		// 	.headers(headers_2))
 
-	setUp(scn.inject(atOnceUsers(1))).protocols(httpProtocol)
+	setUp(scn.inject(atOnceUsers(4))).protocols(httpProtocol)
 }
