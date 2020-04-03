@@ -37,7 +37,7 @@ class LibraryAPI extends Simulation {
 		val getAuthor = exec(http("Paso 2 - Buscar autor")
 			.get("/search.json?author=${authorName}")
 			.headers(headers_1)
-			.check(jsonPath("$..cover_i")[0].ofType[Int].saveAs("coverID"))
+			.check(jsonPath("$..cover_i").find(0).ofType[Int].saveAs("coverID"))
 		)
 		.pause(1)
 	}
