@@ -29,7 +29,6 @@ class LibraryAPI extends Simulation {
 			.queryParam("title", "the lord of the rings")
 			.headers(headers_0)
 			.check(jsonPath("$..author_name[0]").ofType[String].saveAs("authorName"))
-			.check(jsonPath("$..cover_i[0]").ofType[Int].saveAs("coverID"))
 		)
 		.pause(1)
 	}
@@ -38,6 +37,7 @@ class LibraryAPI extends Simulation {
 		val getAuthor = exec(http("Paso 2 - Buscar autor")
 			.get("/search.json?author=${authorName}")
 			.headers(headers_1)
+			.check(jsonPath("$..cover_i[0]").ofType[Int].saveAs("coverID"))
 		)
 		.pause(1)
 	}
